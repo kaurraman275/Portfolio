@@ -1,20 +1,22 @@
 import * as Sentry from "@sentry/nextjs";
 
-Sentry.init({
-  dsn: "https://7b883d075caa19b41fd9b00ae313a1c6@o4506813739368448.ingest.us.sentry.io/4507222371729408",
+// Only initialize Sentry if DSN is available
+if (process.env.NEXT_PUBLIC_SENTRY_DSN || process.env.SENTRY_DSN) {
+  Sentry.init({
+    dsn: process.env.NEXT_PUBLIC_SENTRY_DSN || process.env.SENTRY_DSN,
+    tracesSampleRate: 1,
 
-  tracesSampleRate: 1,
+    debug: false,
 
-  debug: false,
+    replaysOnErrorSampleRate: 1.0,
 
-  replaysOnErrorSampleRate: 1.0,
+    replaysSessionSampleRate: 0.1,
 
-  replaysSessionSampleRate: 0.1,
-
-  integrations: [
-    Sentry.replayIntegration({
-      maskAllText: true,
-      blockAllMedia: true,
-    }),
-  ],
-});
+    integrations: [
+      Sentry.replayIntegration({
+        maskAllText: true,
+        blockAllMedia: true,
+      }),
+    ],
+  });
+}

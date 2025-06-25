@@ -8,6 +8,8 @@ export default withSentryConfig(
     silent: true,
     org: "ramanpreet",
     project: "ramanpreet",
+    // Disable Sentry CLI during build if no auth token is provided
+    dryRun: !process.env.SENTRY_AUTH_TOKEN,
   },
   {
     widenClientFileUpload: true,
